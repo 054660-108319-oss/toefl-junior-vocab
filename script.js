@@ -1,3 +1,8 @@
+let score = 0;
+let total = 0;
+const scoreElement =
+document.getElementById("score");
+
 const words = [
 {
     word:"maintain",
@@ -112,16 +117,25 @@ optionButtons.forEach(button => {
     "click",
     function(){
 
-        if(button.textContent === correctAnswer){
+if(button.textContent === correctAnswer){
 
-            result.textContent =
-            "✅ Correct!";
+    score++;
+    total++;
 
-        }else{
+    result.textContent =
+    "✅ Correct!";
 
-            result.textContent =
-            "❌ Wrong!";
+}else{
 
+    total++;
+
+    result.textContent =
+    "❌ Wrong!";
+}
+
+scoreElement.textContent =
+`Score: ${score} / ${total}`;
+            
         }
 
     });
