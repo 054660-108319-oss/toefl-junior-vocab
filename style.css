@@ -1,16 +1,30 @@
 body{
+
     background:#0f172a;
     color:white;
+
     display:flex;
     justify-content:center;
+    align-items:flex-start;
+
     min-height:100vh;
+
+    font-family:Arial;
+
     padding-top:50px;
-    font-family:Arial, sans-serif;
+
 }
 
 .container{
-    text-align:center;
+
     width:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
 }
 
 .card{
