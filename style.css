@@ -71,6 +71,16 @@ button{
     animation: pop 0.3s ease;
 }
 
+/* =========================
+   答對動畫
+========================= */
+
+.correct-animation{
+
+    animation: pop 0.5s ease;
+
+}
+
 @keyframes pop{
 
     0%{
@@ -78,7 +88,7 @@ button{
     }
 
     50%{
-        transform:scale(1.08);
+        transform:scale(1.15);
     }
 
     100%{
@@ -87,9 +97,14 @@ button{
 
 }
 
+/* =========================
+   答錯動畫
+========================= */
+
 .wrong-animation{
 
-    animation: shake 0.4s;
+    animation: shake 0.6s ease;
+
 }
 
 @keyframes shake{
@@ -98,16 +113,40 @@ button{
         transform:translateX(0);
     }
 
-    25%{
-        transform:translateX(-8px);
+    10%{
+        transform:translateX(-15px);
+    }
+
+    20%{
+        transform:translateX(15px);
+    }
+
+    30%{
+        transform:translateX(-15px);
+    }
+
+    40%{
+        transform:translateX(15px);
     }
 
     50%{
-        transform:translateX(8px);
+        transform:translateX(-15px);
     }
 
-    75%{
-        transform:translateX(-8px);
+    60%{
+        transform:translateX(15px);
+    }
+
+    70%{
+        transform:translateX(-15px);
+    }
+
+    80%{
+        transform:translateX(15px);
+    }
+
+    90%{
+        transform:translateX(-15px);
     }
 
     100%{
