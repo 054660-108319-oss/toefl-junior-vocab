@@ -190,7 +190,7 @@ optionButtons.forEach(button=>{
         "click",
         function(){
 
-            const card =
+           const card =
 document.querySelector(".card");
 
 card.classList.remove(
