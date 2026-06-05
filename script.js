@@ -26,18 +26,12 @@ const words = [
 ];
 
 let currentIndex = 0;
+let correctAnswer = "";
 
-const wordElement =
-document.getElementById("word");
-
-const meaningElement =
-document.getElementById("meaning");
-
-const showMeaningBtn =
-document.getElementById("showMeaningBtn");
-
-const nextBtn =
-document.getElementById("nextBtn");
+const wordElement = document.getElementById("word");
+const meaningElement = document.getElementById("meaning");
+const showMeaningBtn = document.getElementById("showMeaningBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 const optionButtons =
 document.querySelectorAll(".optionBtn");
@@ -45,12 +39,46 @@ document.querySelectorAll(".optionBtn");
 const result =
 document.getElementById("result");
 
+function generateQuestion(){
+
+    correctAnswer =
+    words[currentIndex].meaning;
+
+    let options = [correctAnswer];
+
+    while(options.length < 4){
+
+        const randomIndex =
+        Math.floor(Math.random() * words.length);
+
+        const randomMeaning =
+        words[randomIndex].meaning;
+
+        if(!options.includes(randomMeaning)){
+            options.push(randomMeaning);
+        }
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    optionButtons.forEach((button,index)=>{
+
+        button.textContent =
+        options[index];
+
+    });
+}
+
 function loadWord(){
 
     wordElement.textContent =
     words[currentIndex].word;
 
     meaningElement.textContent = "";
+
+    result.textContent = "";
+
+    generateQuestion();
 }
 
 showMeaningBtn.addEventListener(
@@ -70,62 +98,34 @@ function(){
     currentIndex++;
 
     if(currentIndex >= words.length){
-
         currentIndex = 0;
     }
 
-    function loadWord(){
+    loadWord();
 
-    wordElement.textContent =
-    words[currentIndex].word;
-
-    meaningElement.textContent = "";
-
-    optionButtons[0].textContent = "A";
-    optionButtons[1].textContent = "B";
-    optionButtons[2].textContent = "C";
-    optionButtons[3].textContent = "D";
-}
-
-function generateQuestion(){
-
-    const correctMeaning =
-    words[currentIndex].meaning;
-
-    let options = [correctMeaning];
-
-    while(options.length < 4){
-
-        const randomIndex =
-        Math.floor(Math.random()*words.length);
-
-        const randomMeaning =
-        words[randomIndex].meaning;
-
-        if(!options.includes(randomMeaning)){
-
-            options.push(randomMeaning);
-        }
-    }
-
-    options.sort(() => Math.random()-0.5);
-
-    optionButtons.forEach((button,index)=>{
-
-        button.textContent =
-        options[index];
-    });
-}
-
-function loadWord(){
-
-    wordElement.textContent =
-    words[currentIndex].word;
-
-    meaningElement.textContent = "";
-
-    generateQuestion();
-}
-    
 }
 );
+
+optionButtons.forEach(button => {
+
+    button.addEventListener(
+    "click",
+    function(){
+
+        if(button.textContent === correctAnswer){
+
+            result.textContent =
+            "✅ Correct!";
+
+        }else{
+
+            result.textContent =
+            "❌ Wrong!";
+
+        }
+
+    });
+
+});
+
+loadWord();
