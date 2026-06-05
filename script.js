@@ -1,5 +1,6 @@
 let score = 0;
 let total = 0;
+
 const scoreElement =
 document.getElementById("score");
 
@@ -33,8 +34,11 @@ const words = [
 let currentIndex = 0;
 let correctAnswer = "";
 
-const wordElement = document.getElementById("word");
-const nextBtn = document.getElementById("nextBtn");
+const wordElement =
+document.getElementById("word");
+
+const nextBtn =
+document.getElementById("nextBtn");
 
 const optionButtons =
 document.querySelectorAll(".optionBtn");
@@ -83,48 +87,47 @@ function loadWord(){
 }
 
 nextBtn.addEventListener(
-"click",
-function(){
+    "click",
+    function(){
 
-    currentIndex++;
+        currentIndex++;
 
-    if(currentIndex >= words.length){
-        currentIndex = 0;
+        if(currentIndex >= words.length){
+            currentIndex = 0;
+        }
+
+        loadWord();
+
     }
-
-    loadWord();
-
-}
 );
 
 optionButtons.forEach(button => {
 
     button.addEventListener(
-    "click",
-    function(){
+        "click",
+        function(){
 
-if(button.textContent === correctAnswer){
+            total++;
 
-    score++;
-    total++;
+            if(button.textContent === correctAnswer){
 
-    result.textContent =
-    "✅ Correct!";
+                score++;
 
-}else{
+                result.textContent =
+                "✅ Correct!";
 
-    total++;
+            }else{
 
-    result.textContent =
-    "❌ Wrong!";
-}
+                result.textContent =
+                "❌ Wrong!";
 
-scoreElement.textContent =
-`Score: ${score} / ${total}`;
-            
+            }
+
+            scoreElement.textContent =
+            `Score: ${score} / ${total}`;
+
         }
-
-    });
+    );
 
 });
 
