@@ -34,8 +34,6 @@ let currentIndex = 0;
 let correctAnswer = "";
 
 const wordElement = document.getElementById("word");
-const meaningElement = document.getElementById("meaning");
-const showMeaningBtn = document.getElementById("showMeaningBtn");
 const nextBtn = document.getElementById("nextBtn");
 
 const optionButtons =
@@ -79,22 +77,10 @@ function loadWord(){
     wordElement.textContent =
     words[currentIndex].word;
 
-    meaningElement.textContent = "";
-
     result.textContent = "";
 
     generateQuestion();
 }
-
-showMeaningBtn.addEventListener(
-"click",
-function(){
-
-    meaningElement.textContent =
-    words[currentIndex].meaning;
-
-}
-);
 
 nextBtn.addEventListener(
 "click",
