@@ -1,0 +1,40 @@
+body{
+    background:#0f172a;
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+
+    font-family:Arial;
+}
+
+.container{
+    text-align:center;
+}
+
+.card{
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    width:350px;
+
+    margin-bottom:20px;
+}
+
+button{
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    margin-top:10px;
+}
