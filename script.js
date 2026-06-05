@@ -10,9 +10,6 @@ document.getElementById("score");
 const wordElement =
 document.getElementById("word");
 
-const nextBtn =
-document.getElementById("nextBtn");
-
 const optionButtons =
 document.querySelectorAll(".optionBtn");
 
@@ -24,18 +21,18 @@ let words = [];
 let currentIndex = 0;
 let correctAnswer = "";
 
-// =====================
+// ======================
 // 載入 CSV
-// =====================
+// ======================
 
-async function loadCSV(){
+async function loadCSV() {
 
-    try{
+    try {
 
         const response =
         await fetch("words.csv");
 
-        if(!response.ok){
+        if (!response.ok) {
 
             throw new Error(
                 "找不到 words.csv"
@@ -56,18 +53,18 @@ async function loadCSV(){
             const [word, meaning] =
             line.split(",");
 
-            return{
-                word:word.trim(),
-                meaning:meaning.trim()
+            return {
+                word: word.trim(),
+                meaning: meaning.trim()
             };
 
         });
 
-        console.log(words);
+        shuffleWords();
 
         loadWord();
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
 
@@ -78,11 +75,35 @@ async function loadCSV(){
 
 }
 
-// =====================
-// 產生選項
-// =====================
+// ======================
+// 打亂題目
+// ======================
 
-function generateQuestion(){
+function shuffleWords() {
+
+    for (
+        let i = words.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+        Math.floor(
+            Math.random() * (i + 1)
+        );
+
+        [words[i], words[j]] =
+        [words[j], words[i]];
+
+    }
+
+}
+
+// ======================
+// 產生選項
+// ======================
+
+function generateQuestion() {
 
     correctAnswer =
     words[currentIndex].meaning;
@@ -90,21 +111,22 @@ function generateQuestion(){
     let options =
     [correctAnswer];
 
-    while(options.length < 4){
+    while (options.length < 4) {
 
         const randomIndex =
         Math.floor(
-            Math.random()*words.length
+            Math.random() *
+            words.length
         );
 
         const randomMeaning =
         words[randomIndex].meaning;
 
-        if(
+        if (
             !options.includes(
                 randomMeaning
             )
-        ){
+        ) {
 
             options.push(
                 randomMeaning
@@ -115,28 +137,34 @@ function generateQuestion(){
     }
 
     options.sort(
-        () => Math.random()-0.5
+        () => Math.random() - 0.5
     );
 
     optionButtons.forEach(
-        (button,index)=>{
+        (button, index) => {
 
             button.textContent =
             options[index];
+
+            button.disabled =
+            false;
 
         }
     );
 
 }
 
-// =====================
-// 載入單字
-// =====================
+// ======================
+// 載入題目
+// ======================
 
-function loadWord(){
+function loadWord() {
 
-    if(words.length === 0){
+    if (
+        currentIndex >= words.length
+    ) {
 
+        showResultScreen();
         return;
 
     }
@@ -146,87 +174,42 @@ function loadWord(){
 
     result.textContent = "";
 
-    optionButtons.forEach(btn=>{
-
-        btn.disabled = false;
-
-    });
-
     generateQuestion();
 
 }
 
-// =====================
-// 下一題按鈕
-// =====================
+// ======================
+// 播放動畫
+// ======================
 
-nextBtn.addEventListener(
-    "click",
-    function(){
+function playAnimation(type) {
 
-        currentIndex++;
+    const card =
+    document.querySelector(".card");
 
-        if(
-            currentIndex >=
-            words.length
-        ){
-
-            currentIndex = 0;
-
-        }
-
-        loadWord();
-
-    }
-);
-
-// =====================
-// 答題
-// =====================
-
-optionButtons.forEach(button=>{
-
-    button.addEventListener(
-        "click",
-        function(){
-
-           const card =
-document.querySelector(".card");
-
-card.classList.remove(
-    "correct-animation",
-    "wrong-animation"
-);
-
-void card.offsetWidth;
-
-if(button.textContent === correctAnswer){
-
-    score++;
-
-    result.textContent =
-    "✅ Correct!";
-
-    card.classList.add(
-        "correct-animation"
-    );
-
-}else{
-
-    result.textContent =
-    "❌ Wrong!";
-
-    card.classList.add(
+    card.classList.remove(
+        "correct-animation",
         "wrong-animation"
     );
 
+    void card.offsetWidth;
+
+    card.classList.add(type);
+
 }
 
-            scoreElement.textContent =
-            `Score: ${score} / ${total}`;
+// ======================
+// 答題
+// ======================
+
+optionButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        function () {
 
             optionButtons.forEach(
-                btn=>{
+                btn => {
 
                     btn.disabled =
                     true;
@@ -234,46 +217,65 @@ if(button.textContent === correctAnswer){
                 }
             );
 
-            setTimeout(()=>{
+            total++;
+            questionCount++;
 
-                if(
-                    questionCount
-                    >=
+            if (
+                button.textContent ===
+                correctAnswer
+            ) {
+
+                score++;
+
+                result.textContent =
+                "✅ Correct!";
+
+                playAnimation(
+                    "correct-animation"
+                );
+
+            } else {
+
+                result.textContent =
+                `❌ Wrong!`;
+
+                playAnimation(
+                    "wrong-animation"
+                );
+
+            }
+
+            scoreElement.textContent =
+            `Score: ${score} / ${total}`;
+
+            setTimeout(() => {
+
+                if (
+                    questionCount >=
                     maxQuestions
-                ){
+                ) {
 
                     showResultScreen();
-
-                }else{
-
-                    currentIndex++;
-
-                    if(
-                        currentIndex
-                        >=
-                        words.length
-                    ){
-
-                        currentIndex = 0;
-
-                    }
-
-                    loadWord();
+                    return;
 
                 }
 
-            },800);
+                currentIndex++;
+
+                loadWord();
+
+            }, 1200);
 
         }
     );
 
 });
 
-// =====================
-// 結算頁
-// =====================
+// ======================
+// 結算畫面
+// ======================
 
-function showResultScreen(){
+function showResultScreen() {
 
     const percentage =
     Math.round(
@@ -281,6 +283,26 @@ function showResultScreen(){
         maxQuestions *
         100
     );
+
+    let grade = "C";
+
+    if (percentage >= 90) {
+
+        grade = "S";
+
+    } else if (
+        percentage >= 80
+    ) {
+
+        grade = "A";
+
+    } else if (
+        percentage >= 70
+    ) {
+
+        grade = "B";
+
+    }
 
     document.querySelector(
         ".card"
@@ -290,9 +312,11 @@ function showResultScreen(){
 
         <h1>${percentage}%</h1>
 
+        <h2>🏆 Rank ${grade}</h2>
+
         <p>答對：${score}</p>
 
-        <p>答錯：${maxQuestions-score}</p>
+        <p>答錯：${maxQuestions - score}</p>
 
         <button onclick="restartQuiz()">
             再挑戰一次
@@ -302,18 +326,18 @@ function showResultScreen(){
 
 }
 
-// =====================
-// 重來
-// =====================
+// ======================
+// 重新開始
+// ======================
 
-function restartQuiz(){
+function restartQuiz() {
 
     location.reload();
 
 }
 
-// =====================
+// ======================
 // 啟動
-// =====================
+// ======================
 
 loadCSV();
