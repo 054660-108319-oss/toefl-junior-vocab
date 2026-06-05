@@ -1,25 +1,28 @@
 const words = [
-
-    {
-        word:"maintain",
-        meaning:"維持；保持"
-    },
-
-    {
-        word:"derive",
-        meaning:"獲得；源自"
-    },
-
-    {
-        word:"significant",
-        meaning:"重要的；顯著的"
-    },
-
-    {
-        word:"occur",
-        meaning:"發生"
-    }
-
+{
+    word:"maintain",
+    meaning:"維持；保持"
+},
+{
+    word:"derive",
+    meaning:"獲得；源自"
+},
+{
+    word:"significant",
+    meaning:"重要的；顯著的"
+},
+{
+    word:"occur",
+    meaning:"發生"
+},
+{
+    word:"construct",
+    meaning:"建造"
+},
+{
+    word:"increase",
+    meaning:"增加"
+}
 ];
 
 let currentIndex = 0;
