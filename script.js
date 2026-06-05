@@ -39,6 +39,12 @@ document.getElementById("showMeaningBtn");
 const nextBtn =
 document.getElementById("nextBtn");
 
+const optionButtons =
+document.querySelectorAll(".optionBtn");
+
+const result =
+document.getElementById("result");
+
 function loadWord(){
 
     wordElement.textContent =
