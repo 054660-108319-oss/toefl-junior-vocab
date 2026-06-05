@@ -191,43 +191,36 @@ optionButtons.forEach(button=>{
         function(){
 
             const card =
-            document.querySelector(
-                ".card"
-            );
+document.querySelector(".card");
 
-            card.classList.remove(
-                "correct-animation",
-                "wrong-animation"
-            );
+card.classList.remove(
+    "correct-animation",
+    "wrong-animation"
+);
 
-            total++;
-            questionCount++;
+void card.offsetWidth;
 
-            if(
-                button.textContent
-                ===
-                correctAnswer
-            ){
+if(button.textContent === correctAnswer){
 
-                score++;
+    score++;
 
-                result.textContent =
-                "✅ Correct!";
+    result.textContent =
+    "✅ Correct!";
 
-                card.classList.add(
-                    "correct-animation"
-                );
+    card.classList.add(
+        "correct-animation"
+    );
 
-            }else{
+}else{
 
-                result.textContent =
-                `❌ Wrong!`;
+    result.textContent =
+    "❌ Wrong!";
 
-                card.classList.add(
-                    "wrong-animation"
-                );
+    card.classList.add(
+        "wrong-animation"
+    );
 
-            }
+}
 
             scoreElement.textContent =
             `Score: ${score} / ${total}`;
