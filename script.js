@@ -74,9 +74,58 @@ function(){
         currentIndex = 0;
     }
 
-    loadWord();
+    function loadWord(){
 
+    wordElement.textContent =
+    words[currentIndex].word;
+
+    meaningElement.textContent = "";
+
+    optionButtons[0].textContent = "A";
+    optionButtons[1].textContent = "B";
+    optionButtons[2].textContent = "C";
+    optionButtons[3].textContent = "D";
+}
+
+function generateQuestion(){
+
+    const correctMeaning =
+    words[currentIndex].meaning;
+
+    let options = [correctMeaning];
+
+    while(options.length < 4){
+
+        const randomIndex =
+        Math.floor(Math.random()*words.length);
+
+        const randomMeaning =
+        words[randomIndex].meaning;
+
+        if(!options.includes(randomMeaning)){
+
+            options.push(randomMeaning);
+        }
+    }
+
+    options.sort(() => Math.random()-0.5);
+
+    optionButtons.forEach((button,index)=>{
+
+        button.textContent =
+        options[index];
+    });
+}
+
+function loadWord(){
+
+    wordElement.textContent =
+    words[currentIndex].word;
+
+    meaningElement.textContent = "";
+
+    generateQuestion();
+}
+    
 }
 );
-
-loadWord();
