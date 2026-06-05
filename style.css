@@ -1,74 +1,76 @@
 body{
     background:#0f172a;
     color:white;
-
     display:flex;
     justify-content:center;
-
     min-height:100vh;
-
     padding-top:50px;
-
-    font-family:Arial;
+    font-family:Arial, sans-serif;
 }
 
 .container{
     text-align:center;
+    width:100%;
 }
 
 .card{
     background:#1e293b;
-
     padding:30px;
-
     border-radius:15px;
-
-    width:350px;
-
+    width:450px;
     min-height:420px;
+    margin:0 auto;
+    position:relative;
+    transition:all 0.3s ease;
+}
 
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+#word{
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+#quizArea{
+    margin-top:25px;
+}
+
+#result{
+    height:40px;
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
 }
 
 button{
     padding:10px 20px;
-
     border:none;
-
     border-radius:10px;
-
     cursor:pointer;
-
     margin-top:10px;
 }
+
 .optionBtn{
-
     width:100%;
-
     margin:8px 0;
-
     padding:12px;
-
     font-size:16px;
-
     background:#334155;
-
     color:white;
-
     border:none;
-
     border-radius:10px;
+    transition:all 0.2s ease;
 }
 
 .optionBtn:hover{
-
     background:#475569;
 }
-.correct-animation{
 
-    animation: pop 0.3s ease;
+#nextBtn{
+    background:#2563eb;
+    color:white;
+}
+
+#nextBtn:hover{
+    background:#1d4ed8;
 }
 
 /* =========================
@@ -76,23 +78,33 @@ button{
 ========================= */
 
 .correct-animation{
-
-    animation: pop 0.5s ease;
-
+    animation: successFlash 0.8s ease;
 }
 
-@keyframes pop{
+@keyframes successFlash{
 
     0%{
         transform:scale(1);
+        box-shadow:0 0 0 rgba(34,197,94,0);
+    }
+
+    25%{
+        transform:scale(1.04);
+        box-shadow:
+        0 0 20px rgba(34,197,94,0.8),
+        0 0 40px rgba(34,197,94,0.6);
     }
 
     50%{
-        transform:scale(1.15);
+        transform:scale(1.06);
+        box-shadow:
+        0 0 35px rgba(34,197,94,1),
+        0 0 60px rgba(34,197,94,0.8);
     }
 
     100%{
         transform:scale(1);
+        box-shadow:0 0 0 rgba(34,197,94,0);
     }
 
 }
@@ -102,55 +114,55 @@ button{
 ========================= */
 
 .wrong-animation{
-
-    animation: shake 0.6s ease;
-
+    animation: errorShake 0.7s ease;
 }
 
-@keyframes shake{
+@keyframes errorShake{
 
     0%{
         transform:translateX(0);
+        box-shadow:0 0 0 rgba(239,68,68,0);
     }
 
-    10%{
-        transform:translateX(-15px);
-    }
-
-    20%{
-        transform:translateX(15px);
+    15%{
+        transform:translateX(-12px);
     }
 
     30%{
-        transform:translateX(-15px);
+        transform:translateX(12px);
     }
 
-    40%{
-        transform:translateX(15px);
-    }
-
-    50%{
-        transform:translateX(-15px);
+    45%{
+        transform:translateX(-10px);
     }
 
     60%{
-        transform:translateX(15px);
+        transform:translateX(10px);
     }
 
-    70%{
-        transform:translateX(-15px);
-    }
-
-    80%{
-        transform:translateX(15px);
+    75%{
+        transform:translateX(-6px);
     }
 
     90%{
-        transform:translateX(-15px);
+        transform:translateX(6px);
+        box-shadow:
+        0 0 25px rgba(239,68,68,0.8);
     }
 
     100%{
         transform:translateX(0);
+        box-shadow:0 0 0 rgba(239,68,68,0);
     }
 
+}
+
+/* =========================
+   分數
+========================= */
+
+#score{
+    font-size:20px;
+    margin-bottom:15px;
+    font-weight:bold;
 }
