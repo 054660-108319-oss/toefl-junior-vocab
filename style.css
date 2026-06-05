@@ -78,6 +78,32 @@ button{
     background:#1d4ed8;
 }
 
+.left-panel{
+
+    flex:1;
+
+}
+
+.right-panel{
+
+    flex:1;
+
+    background:#0f172a;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:left;
+
+}
+
+.right-panel h3{
+
+    margin-bottom:15px;
+
+}
+
 /* =========================
    答對動畫
 ========================= */
