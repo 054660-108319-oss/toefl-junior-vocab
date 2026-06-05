@@ -4,32 +4,7 @@ let total = 0;
 const scoreElement =
 document.getElementById("score");
 
-const words = [
-{
-    word:"maintain",
-    meaning:"維持；保持"
-},
-{
-    word:"derive",
-    meaning:"獲得；源自"
-},
-{
-    word:"significant",
-    meaning:"重要的；顯著的"
-},
-{
-    word:"occur",
-    meaning:"發生"
-},
-{
-    word:"construct",
-    meaning:"建造"
-},
-{
-    word:"increase",
-    meaning:"增加"
-}
-];
+let words = [];
 
 let currentIndex = 0;
 let correctAnswer = "";
@@ -131,4 +106,30 @@ optionButtons.forEach(button => {
 
 });
 
-loadWord();
+async function loadCSV(){
+
+    const response =
+    await fetch("words.csv");
+
+    const text =
+    await response.text();
+
+    const lines =
+    text.trim().split("\n");
+
+    lines.shift();
+
+    words = lines.map(line => {
+
+        const [word, meaning] =
+        line.split(",");
+
+        return {
+            word,
+            meaning
+        };
+
+    });
+
+
+loadCSV();
