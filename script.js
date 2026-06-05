@@ -1,34 +1,67 @@
 let score = 0;
 let total = 0;
 
-const scoreElement =
-document.getElementById("score");
+const scoreElement = document.getElementById("score");
+const wordElement = document.getElementById("word");
+const nextBtn = document.getElementById("nextBtn");
+const optionButtons = document.querySelectorAll(".optionBtn");
+const result = document.getElementById("result");
 
 let words = [];
-
 let currentIndex = 0;
 let correctAnswer = "";
 
-const wordElement =
-document.getElementById("word");
+// 載入 CSV
+async function loadCSV() {
 
-const nextBtn =
-document.getElementById("nextBtn");
+    try {
 
-const optionButtons =
-document.querySelectorAll(".optionBtn");
+        const response = await fetch("words.csv");
 
-const result =
-document.getElementById("result");
+        if (!response.ok) {
+            throw new Error("找不到 words.csv");
+        }
 
-function generateQuestion(){
+        const text = await response.text();
+
+        const lines = text.trim().split("\n");
+
+        lines.shift(); // 移除標題列
+
+        words = lines.map(line => {
+
+            const [word, meaning] = line.split(",");
+
+            return {
+                word: word.trim(),
+                meaning: meaning.trim()
+            };
+
+        });
+
+        console.log("單字庫載入成功：", words);
+
+        loadWord();
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.textContent =
+        "❌ words.csv 載入失敗";
+
+    }
+}
+
+// 產生題目
+function generateQuestion() {
 
     correctAnswer =
     words[currentIndex].meaning;
 
     let options = [correctAnswer];
 
-    while(options.length < 4){
+    while (options.length < 4) {
 
         const randomIndex =
         Math.floor(Math.random() * words.length);
@@ -36,22 +69,30 @@ function generateQuestion(){
         const randomMeaning =
         words[randomIndex].meaning;
 
-        if(!options.includes(randomMeaning)){
+        if (!options.includes(randomMeaning)) {
+
             options.push(randomMeaning);
+
         }
     }
 
     options.sort(() => Math.random() - 0.5);
 
-    optionButtons.forEach((button,index)=>{
+    optionButtons.forEach((button, index) => {
 
         button.textContent =
         options[index];
 
+        button.disabled = false;
+
     });
+
 }
 
-function loadWord(){
+// 載入單字
+function loadWord() {
+
+    if (words.length === 0) return;
 
     wordElement.textContent =
     words[currentIndex].word;
@@ -59,77 +100,56 @@ function loadWord(){
     result.textContent = "";
 
     generateQuestion();
+
 }
 
-nextBtn.addEventListener(
-    "click",
-    function(){
+// 下一題
+nextBtn.addEventListener("click", () => {
 
-        currentIndex++;
+    currentIndex++;
 
-        if(currentIndex >= words.length){
-            currentIndex = 0;
-        }
+    if (currentIndex >= words.length) {
 
-        loadWord();
+        currentIndex = 0;
 
     }
-);
 
-optionButtons.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        function(){
-
-            total++;
-
-            if(button.textContent === correctAnswer){
-
-                score++;
-
-                result.textContent =
-                "✅ Correct!";
-
-            }else{
-
-                result.textContent =
-                "❌ Wrong!";
-
-            }
-
-            scoreElement.textContent =
-            `Score: ${score} / ${total}`;
-
-        }
-    );
+    loadWord();
 
 });
 
-async function loadCSV(){
+// 點選答案
+optionButtons.forEach(button => {
 
-    const response =
-    await fetch("words.csv");
+    button.addEventListener("click", () => {
 
-    const text =
-    await response.text();
+        total++;
 
-    const lines =
-    text.trim().split("\n");
+        if (button.textContent === correctAnswer) {
 
-    lines.shift();
+            score++;
 
-    words = lines.map(line => {
+            result.textContent =
+            "✅ Correct!";
 
-        const [word, meaning] =
-        line.split(",");
+        } else {
 
-        return {
-            word,
-            meaning
-        };
+            result.textContent =
+            `❌ Wrong! 正確答案：${correctAnswer}`;
+
+        }
+
+        scoreElement.textContent =
+        `Score: ${score} / ${total}`;
+
+        // 防止狂點刷分
+        optionButtons.forEach(btn => {
+            btn.disabled = true;
+        });
 
     });
 
+});
 
+// 啟動
 loadCSV();
