@@ -14,16 +14,21 @@ body{
 }
 
 .card{
-    background:#1e293b;
-    padding:30px;
-    border-radius:15px;
-    width:450px;
-    min-height:420px;
-    margin:0 auto;
-    position:relative;
-    transition:all 0.3s ease;
-}
 
+    background:#1e293b;
+
+    width:900px;
+    max-width:95%;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    gap:30px;
+
+}
 #word{
     font-size:32px;
     margin-bottom:20px;
